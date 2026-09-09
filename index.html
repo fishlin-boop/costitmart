@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CostitMart - Wholesale Club & Superstore</title>
+    <style>
+        :root {
+            --blue: #1d4ed8;
+            --blue-dark: #1e3a8a;
+            --yellow: #f59e0b;
+            --yellow-light: #fef3c7;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --gray: #9ca3af;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #f9fafb;
+            color: var(--dark);
+            line-height: 1.5;
+        }
+
+        header {
+            background: var(--blue-dark);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-icon {
+            font-size: 2.2rem;
+            animation: zoomCart 2s infinite alternate ease-in-out;
+        }
+
+        @keyframes zoomCart {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.15); }
+        }
+
+        .logo-text {
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            color: var(--yellow);
+        }
+
+        nav {
+            display: flex;
+            gap: 1.25rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            transition: background 0.2s;
+        }
+
+        nav a:hover, nav a:active {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--yellow);
+        }
+
+        .cart-badge {
+            background: var(--yellow);
+            color: var(--dark);
+            padding: 0.2rem 0.6rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        main {
+            max-width: 1300px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .hero-banner {
+            background: linear-gradient(rgba(29, 78, 216, 0.8), rgba(30, 58, 138, 0.85)), url('https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=1300&q=80') center/cover no-repeat;
+            color: white;
+            padding: 4.5rem 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 10px 20px -5px rgba(29, 78, 216, 0.3);
+            border: 4px solid var(--yellow);
+        }
+
+        .hero-banner h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-banner p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--yellow);
+            color: var(--blue-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .category-section {
+            margin-bottom: 3.5rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -4px rgba(0,0,0,0.08);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background-color: #f3f4f6;
+        }
+
+        .product-body {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .product-info h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .price-container {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--blue);
+        }
+
+        .old-price {
+            font-size: 0.95rem;
+            text-decoration: line-through;
+            color: var(--gray);
+        }
+
+        .btn {
+            background: var(--blue);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn:hover {
+            background: var(--blue-dark);
+        }
+
+        .out-of-stock-badge {
+            background: var(--danger);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .sale-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--yellow);
+            color: var(--dark);
+            font-size: 0.75rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.25rem;
+            font-weight: 800;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn.disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+        }
+
+        /* Toast Notifications */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 2000;
+            max-width: 90%;
+        }
+
+        .toast {
+            background: var(--dark);
+            color: white;
+            padding: 1rem 1.25rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: slideIn 0.3s ease;
+            cursor: pointer;
+            font-size: 0.95rem;
+            border-left: 5px solid var(--yellow);
+        }
+
+        .toast.alert-toast {
+            background: var(--danger);
+            border-left-color: white;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Modal Overlay */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 550px;
+            width: 100%;
+            position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);
+            border-top: 6px solid var(--blue);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #f3f4f6;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .admin-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border: 2px dashed var(--blue);
+            border-radius: 0.5rem;
+            background: #eff6ff;
+        }
+
+        .cart-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .cart-total {
+            margin-top: 1.25rem;
+            font-size: 1.2rem;
+            font-weight: 800;
+            display: flex;
+            justify-content: space-between;
+            color: var(--blue-dark);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo-area">
+                <span class="logo-icon">🛒📦</span>
+                <div class="logo-text" id="brandLogoText">Costit<span>MART</span></div>
+            </a>
+            <nav>
+                <a onclick="openModal('saleModal')">🔥 Wholesale Clearance</a>
+                <a onclick="openModal('dealsModal')">Jumbo Deals</a>
+                <a onclick="openModal('couponsModal')">Coupons</a>
+                <a onclick="openModal('accountModal')">Membership</a>
+                <a onclick="openModal('cartModal')" style="display: flex; align-items: center; gap: 0.4rem;">
+                    Cart <span class="cart-badge" id="cartCount">0</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="hero-banner">
+            <h1 id="heroTitle">Welcome to CostitMart!</h1>
+            <p>Your giant warehouse club for bulk everyday things, clothes, and high-value appliances.</p>
+            <div>
+                <button class="btn" style="width: auto; padding: 0.75rem 1.5rem; background: var(--yellow); color: var(--dark);" onclick="customizeStoreName()">Customize Warehouse Name</button>
+            </div>
+        </div>
+
+        <!-- Wholesale Clearance & Sale Section -->
+        <section class="category-section">
+            <h2 class="section-title">🔥 Wholesale Clearance & Sale</h2>
+            <div class="product-grid">
+                <div class="product-card" id="item-Takoos Mega Variety Box (40 ct)">
+                    <span class="sale-badge">JUMBO SALE</span>
+                    <img src="https://images.unsplash.com/photo-1566478989037-eec170784d0b?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Takoos">
+                    <div class="product-body">
+                        <div class="product-info">
+                            <h3>Takoos Mega Variety Box (40 ct)</h3>
+                            <div class="price-container">
+                                <span class="product-price">$12.99</span>
+                                <span class="old-price">$18.99</span>
+                            </div>
+                        </div>
+                        <button class="btn" onclick="addItemToCart('Takoos Mega Variety Box (40 ct)', 12.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card" id="item-Sandeos Family Size Cookie Tub">
+                    <span class="sale-badge">SALE</span>
+                    <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Sandeos">
+                    <div class="product-body">
+                        <div class="product-info">
+                            <h3>Sandeos Family Size Cookie Tub</h3>
+                            <div class="price-container">
+                                <span class="product-price">$8.49</span>
+                                <span class="old-price">$11.99</span>
+                            </div>
+                        </div>
+                        <button class="btn" onclick="addItemToCart('Sandeos Family Size Cookie Tub', 8.49)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card" id="item-Kirk-Woods Giant Trail Mix (5 lbs)">
+                    <span class="sale-badge">BULK DEAL</span>
+                    <img src="https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Trail Mix">
+                    <div class="product-body">
+                        <div class="product-info">
+                            <h3>Kirk-Woods Giant Trail Mix (5 lbs)</h3>
+                            <div class="price-container">
+                                <span class="product-price">$14.99</span>
+                                <span class="old-price">$19.99</span>
+                            </div>
+                        </div>
+                        <button class="btn" onclick="addItemToCart('Kirk-Woods Giant Trail Mix (5 lbs)', 14.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kitchen Appliances Section -->
+        <section class="category-section">
+            <h2 class="section-title">⚡ Kitchen Appliances & Electronics</h2>
+            <div class="product-grid">
+                <div class="product-card" id="item-Mega-Chef Air Fryer (8QT)">
+                    <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Air Fryer">
+                    <div class="product-body">
+                        <div class="product-info">
+                            <h3>Mega-Chef Air Fryer (8QT)</h3>
+                            <div class="stock-status-wrap"></div>
+                            <div class="product-price">$89.99</div>
+                        </div>
+                        <button class="btn" onclick="addItemToCart('Mega-Chef Air Fryer (8QT)', 89.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card" id="item-Power-Blend Pro Kitchen Blender">
+                    <img src="https://images.unsplash.com/photo-1570222094114-d074f7e21b55?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Blender">
+                    <div class="product-body">
+                        <div class="product-info">
+                            <h3>Power-Blend Pro Kitchen Blender</h3>
+                            <div class="stock-status-wrap"></div>
+                            <div class="product-price">$49.99</div>
+                        </div>
+                        <button class="btn" onclick="addItemToCart('Power-Blend Pro Kitchen Blender', 49.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card" id="item-Titanium Programmable Coffee Maker">
+                    <img src="https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Coffee Maker">
+                    <div class="product-body">
+                        <div class="product-info">
+                            <h3>Titanium Programmable Coffee Maker</h3>
+                            <div class="stock-status-wrap"></div>
+                            <div class="product-price">$39.99</div>
+                        </div>
+                        <button class="btn" onclick="addItemToCart('Titanium Programmable Coffee Maker', 39.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Clothing & Apparel Section -->
+        <section class="category-section">
+            <h2 class="section-title">👕 Clothing & Apparel</h2>
+            <div class="product-grid">
+                <div class="product-card" id="item-Cozy-Fit Heavyweight Fleece Hoodie">
+                    <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Hoodie">
+                    <div class="product-body">
+                        <div class="product-info">
+                            <h3>Cozy-Fit Heavyweight Fleece Hoodie</h3>
+                            <div class="stock-status-wrap"></div>
+                            <div class="product-price">$24.99</div>
+                        </div>
+                        <button class="btn" onclick="addItemToCart('Cozy-Fit Heavyweight Fleece Hoodie', 24.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card" id="item-All-Weather Heavy Duty Jacket">
+                    <img src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Jacket">
+                    <div class="product-body">
+                        <div class="product-info">
+                            <h3>All-Weather Heavy Duty Jacket</h3>
+                            <div class="stock-status-wrap"></div>
+                            <div class="product-price">$45.99</div>
+                        </div>
+                        <button class="btn" onclick="addItemToCart('All-Weather Heavy Duty Jacket', 45.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card" id="item-Ultra-Soft Cotton Crew Socks (12-Pack)">
+                    <img src="https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Socks">
+                    <div class="product-body">
+                        <div class="product-info">
+                            <h3>Ultra-Soft Cotton Crew Socks (12-Pack)</h3>
+                            <div class="stock-status-wrap"></div>
+                            <div class="product-price">$12.99</div>
+                        </div>
+                        <button class="btn" onclick="addItemToCart('Ultra-Soft Cotton Crew Socks (12-Pack)', 12.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Household Essentials & Bulk Section -->
+        <section class="category-section">
+            <h2 class="section-title">🧻 Household Essentials & Bulk</h2>
+            <div class="product-grid">
+                <div class="product-card" id="item-Mega-Roll Paper Towels (24 Pack)">
+                    <img src="https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Paper Towels">
+                    <div class="product-body">
+                        <div class="product-info">
+                            <h3>Mega-Roll Paper Towels (24 Pack)</h3>
+                            <div class="stock-status-wrap"></div>
+                            <div class="product-price">$29.99</div>
+                        </div>
+                        <button class="btn" onclick="addItemToCart('Mega-Roll Paper Towels (24 Pack)', 29.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card" id="item-Ultra-Soft Bath Tissue (36 Mega Rolls)">
+                    <img src="https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Bath Tissue">
+                    <div class="product-body">
+                        <div class="product-info">
+                            <h3>Ultra-Soft Bath Tissue (36 Rolls)</h3>
+                            <div class="stock-status-wrap"></div>
+                            <div class="product-price">$32.99</div>
+                        </div>
+                        <button class="btn" onclick="addItemToCart('Ultra-Soft Bath Tissue (36 Rolls)', 32.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card" id="item-Ultra-Bright LED Shop Lights (2-Pack)">
+                    <img src="https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Shop Lights">
+                    <div class="product-body">
+                        <div class="product-info">
+                            <h3>Ultra-Bright LED Shop Lights (2-Pack)</h3>
+                            <div class="stock-status-wrap"></div>
+                            <div class="product-price">$27.99</div>
+                        </div>
+                        <button class="btn" onclick="addItemToCart('Ultra-Bright LED Shop Lights (2-Pack)', 27.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Groceries & Fresh Produce -->
+        <section class="category-section">
+            <h2 class="section-title">🍎 Jumbo Groceries & Produce</h2>
+            <div class="product-grid">
+                <div class="product-card" id="item-Organic Honeycrisp Apple Box (5 lbs)">
+                    <img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Apples">
+                    <div class="product-body">
+                        <div class="product-info">
+                            <h3>Organic Apple Box (5 lbs)</h3>
+                            <div class="stock-status-wrap"></div>
+                            <div class="product-price">$9.99</div>
+                        </div>
+                        <button class="btn" onclick="addItemToCart('Organic Apple Box (5 lbs)', 9.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card" id="item-Kirk-Woods Whole Milk (2-Gallon Pack)">
+                    <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Milk">
+                    <div class="product-body">
+                        <div class="product-info">
+                            <h3>Kirk-Woods Whole Milk (2-Gallon Pack)</h3>
+                            <div class="stock-status-wrap"></div>
+                            <div class="product-price">$6.49</div>
+                        </div>
+                        <button class="btn" onclick="addItemToCart('Kirk-Woods Whole Milk (2-Gallon Pack)', 6.49)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card" id="item-Dr. Thirst Bulk Soda (36-Pack)">
+                    <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Soda">
+                    <div class="product-body">
+                        <div class="product-info">
+                            <h3>Dr. Thirst Bulk Soda (36-Pack)</h3>
+                            <div class="stock-status-wrap"></div>
+                            <div class="product-price">$13.99</div>
+                        </div>
+                        <button class="btn" onclick="addItemToCart('Dr. Thirst Bulk Soda (36-Pack)', 13.99)">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card" id="item-Prime Ribeye Steak Bulk Pack (3 lbs)">
+                    <img src="https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=500&q=80" class="product-img" alt="Steak">
+                    <div class="product-body">
+                        <div class="product-info">
+                            <h3>Prime Ribeye Steak Bulk Pack (3 lbs)</h3>
+                            <div class="stock-status-wrap"></div>
+                            <div class="product-price">$34.99</div>
+                        </div>
+                        <button class="btn" onclick="addItemToCart('Prime Ribeye Steak Bulk Pack (3 lbs)', 34.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Toy Section -->
+        <section class="category-section">
+            <h2 class="section-title">🎮 Toys & Playtime</h2>
+            <div class="product-grid">
+                <div class="coming-soon-card" style="background: linear-gradient(135deg, #f3f4f6, #e5e7eb); border: 2px dashed var(--gray); border-radius: 0.75rem; padding: 2rem; text-align: center; grid-column: 1 / -1;">
+                    <h3 style="font-size: 1.5rem; color: var(--dark); margin-bottom: 0.5rem;">Toy Department — Coming Soon!</h3>
+                    <p style="color: #4b5563;">Massive board games, action figures, and outdoor play sets are rolling into CostitMart soon.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Side Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Modals -->
+    <div id="saleModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('saleModal')">&times;</button>
+            <h2>🔥 Wholesale Clearance</h2>
+            <p style="margin-top: 1rem;">Grab these jumbo-sized club items, snacks, and gear at deep markdown prices while stock lasts!</p>
+        </div>
+    </div>
+
+    <div id="dealsModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('dealsModal')">&times;</button>
+            <h2>Jumbo Club Deals</h2>
+            <p style="margin-top: 1rem;">🔥 Buy one mega box of Takoos, get a second box half off!</p>
+            <p style="margin-top: 0.5rem;">🔥 Free shipping on all kitchen appliance orders over $50!</p>
+        </div>
+    </div>
+
+    <div id="couponsModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('couponsModal')">&times;</button>
+            <h2>Available Coupons</h2>
+            <p style="margin-top: 1rem;">🎟️ Use code <b>PLAYTIME2026</b> for $10 off your wholesale order at checkout!</p>
+        </div>
+    </div>
+
+    <div id="accountModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('accountModal')">&times;</button>
+            <h2>Wholesale Membership</h2>
+            <p style="margin-top: 1rem;">Logged in as: <b>Executive Member & Brother</b></p>
+            <p style="margin-top: 0.5rem;">Club Cash Rewards: 1,250 pts</p>
+
+            <div class="admin-box">
+                <h3>Manager / Admin Portal</h3>
+                <p style="font-size: 0.9rem; margin-top: 0.25rem;">Enter Admin PIN code:</p>
+                <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                    <input type="password" id="adminPinInput" placeholder="Enter PIN" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1;">
+                    <button class="btn" style="width: auto;" onclick="checkAdminPin()">Login</button>
+                </div>
+                <div id="adminPanel" style="display: none; margin-top: 1rem;">
+                    <p style="color: var(--blue); font-weight: bold;">🔓 Manager Access Granted!</p>
+                    <p style="font-size: 0.85rem; margin-top: 0.25rem;">Tap the button below 50 times to restock all items:</p>
+                    <button class="btn" id="restockBtn" style="margin-top: 0.5rem; background: var(--yellow); color: var(--dark);" onclick="clickRestock()">Restock Clicker (<span id="clickCount">50</span> left)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('cartModal')">&times;</button>
+            <h2>Wholesale Cart</h2>
+            <div id="cartItemsList" style="margin-top: 1rem; max-height: 250px; overflow-y: auto;">
+                <p style="color: var(--gray); text-align: center; padding: 1rem;">Your cart is empty.</p>
+            </div>
+            <div class="cart-total" id="cartTotalSection" style="display: none;">
+                <span>Total:</span>
+                <span id="cartTotalPrice">$0.00</span>
+            </div>
+            <div style="margin-top: 1.25rem; display: flex; gap: 0.5rem;">
+                <input type="text" id="couponInput" placeholder="Coupon Code" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; flex-grow: 1;">
+                <button class="btn" style="width: auto; background: var(--yellow); color: var(--dark);" onclick="applyCoupon()">Apply</button>
+            </div>
+            <button class="btn" id="checkoutBtn" style="margin-top: 1rem; display: none;" onclick="checkoutCart()">Checkout (Fake Buy)</button>
+        </div>
+    </div>
+
+    <script>
+        let storeName = "CostitMart";
+
+        function customizeStoreName() {
+            let newName = prompt("Enter new warehouse store name:", storeName);
+            if (newName && newName.trim() !== "") {
+                storeName = newName.trim();
+                document.getElementById('brandLogoText').innerHTML = storeName.slice(0, 6) + `<span>` + storeName.slice(6) + `</span>`;
+                document.getElementById('heroTitle').innerText = "Welcome to " + storeName + "!";
+                document.title = storeName + " - Wholesale Club & Superstore";
+            }
+        }
+
+        let cartCount = 0;
+        let cartItems = []; // Array of objects: {name, price}
+        let restockClicksRemaining = 50;
+        let couponDiscount = 0;
+
+        const allItems = [
+            "Takoos Mega Variety Box (40 ct)", "Sandeos Family Size Cookie Tub", "Kirk-Woods Giant Trail Mix (5 lbs)",
+            "Mega-Chef Air Fryer (8QT)", "Power-Blend Pro Kitchen Blender", "Titanium Programmable Coffee Maker",
+            "Cozy-Fit Heavyweight Fleece Hoodie", "All-Weather Heavy Duty Jacket", "Ultra-Soft Cotton Crew Socks (12-Pack)",
+            "Mega-Roll Paper Towels (24 Pack)", "Ultra-Soft Bath Tissue (36 Rolls)", "Ultra-Bright LED Shop Lights (2-Pack)",
+            "Organic Apple Box (5 lbs)", "Kirk-Woods Whole Milk (2-Gallon Pack)", "Dr. Thirst Bulk Soda (36-Pack)", "Prime Ribeye Steak Bulk Pack (3 lbs)"
+        ];
+
+        function addItemToCart(itemName, price) {
+            const card = document.getElementById('item-' + itemName);
+            if (card && card.classList.contains('out-of-stock')) {
+                showToast("Cannot add! This jumbo item is currently Out of Stock.", true);
+                return;
+            }
+
+            cartCount++;
+            document.getElementById('cartCount').innerText = cartCount;
+            cartItems.push({ name: itemName, price: price });
+            updateCartUI();
+            
+            showToast(`🛒 Added ${itemName} to cart! Tap here to view.`, false, () => openModal('cartModal'));
+        }
+
+        function showToast(message, isAlert = false, onClickCallback = null) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast' + (isAlert ? ' alert-toast' : '');
+            toast.innerHTML = `<span>${message}</span>`;
+            
+            if (onClickCallback) {
+                toast.onclick = () => {
+                    onClickCallback();
+                    toast.remove();
+                };
+            }
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        function updateCartUI() {
+            const list = document.getElementById('cartItemsList');
+            const totalSection = document.getElementById('cartTotalSection');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+
+            if (cartItems.length === 0) {
+                list.innerHTML = `<p style="color: var(--gray); text-align: center; padding: 1rem;">Your cart is empty.</p>`;
+                totalSection.style.display = 'none';
+                checkoutBtn.style.display = 'none';
+            } else {
+                list.innerHTML = "";
+                let subtotal = 0;
+                cartItems.forEach((item, index) => {
+                    subtotal += item.price;
+                    const row = document.createElement('div');
+                    row.className = 'cart-item-row';
+                    row.innerHTML = `
+                        <span style="font-weight: 500;">${item.name}</span>
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <span style="font-weight: 700;">$${item.price.toFixed(2)}</span>
+                            <button onclick="removeFromCart(${index})" style="background: none; border: none; color: var(--danger); cursor: pointer; font-weight: bold; font-size: 1.1rem;">&times;</button>
+                        </div>
+                    `;
+                    list.appendChild(row);
+                });
+
+                let finalTotal = Math.max(0, subtotal - couponDiscount);
+                document.getElementById('cartTotalPrice').innerText = `$${finalTotal.toFixed(2)}`;
+                totalSection.style.display = 'flex';
+                checkoutBtn.style.display = 'block';
+            }
+        }
+
+        function removeFromCart(index) {
+            cartItems.splice(index, 1);
+            cartCount = cartItems.length;
+            document.getElementById('cartCount').innerText = cartCount;
+            updateCartUI();
+        }
+
+        function applyCoupon() {
+            const code = document.getElementById('couponInput').value.trim().toUpperCase();
+            if (code === "PLAYTIME2026") {
+                couponDiscount = 10.00;
+                showToast("🎟️ Coupon applied successfully! $10.00 off.", false);
+                updateCartUI();
+            } else {
+                alert("Invalid coupon code! Try PLAYTIME2026");
+            }
+        }
+
+        function checkoutCart() {
+            if (cartItems.length === 0) return;
+            alert("🎉 Wholesale Purchase Successful! Your giant club order has been processed.");
+            cartItems = [];
+            cartCount = 0;
+            couponDiscount = 0;
+            document.getElementById('cartCount').innerText = 0;
+            updateCartUI();
+            closeModal('cartModal');
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Admin PIN Verification (Code: 4474)
+        function checkAdminPin() {
+            const pin = document.getElementById('adminPinInput').value;
+            if (pin === "4474") {
+                document.getElementById('adminPanel').style.display = 'block';
+                showToast("🔓 Manager access unlocked!", false);
+            } else {
+                alert("Incorrect PIN code!");
+            }
+        }
+
+        // Restock clicker counter logic (requires 50 taps/clicks)
+        function clickRestock() {
+            restockClicksRemaining--;
+            document.getElementById('clickCount').innerText = restockClicksRemaining;
+            
+            if (restockClicksRemaining <= 0) {
+                allItems.forEach(itemName => {
+                    setStockState(itemName, true);
+                });
+                restockClicksRemaining = 50;
+                document.getElementById('clickCount').innerText = restockClicksRemaining;
+                showToast("📦 Wholesale warehouse successfully restocked by manager!", false);
+            }
+        }
+
+        function setStockState(itemName, inStock) {
+            const card = document.getElementById('item-' + itemName);
+            if (!card) return;
+
+            const btn = card.querySelector('.btn');
+            let statusWrap = card.querySelector('.stock-status-wrap');
+            if (!statusWrap) {
+                statusWrap = document.createElement('div');
+                statusWrap.className = 'stock-status-wrap';
+                card.querySelector('.product-body').insertBefore(statusWrap, btn);
+            }
+
+            if (inStock) {
+                card.classList.remove('out-of-stock');
+                statusWrap.innerHTML = '';
+                btn.className = 'btn';
+                btn.innerText = 'Add to Cart';
+                btn.disabled = false;
+            } else {
+                card.classList.add('out-of-stock');
+                statusWrap.innerHTML = '<span class="out-of-stock-badge">Out of Stock</span>';
+                btn.className = 'btn disabled';
+                btn.innerText = 'Out of Stock';
+                btn.disabled = true;
+            }
+        }
+
+        // Simulated fake customer purchases that run items out of stock
+        setInterval(() => {
+            const inStockCards = document.querySelectorAll('.product-card:not(.out-of-stock)');
+            if (inStockCards.length > 0) {
+                const randomCard = inStockCards[Math.floor(Math.random() * inStockCards.length)];
+                const itemName = randomCard.id.replace('item-', '');
+                
+                setStockState(itemName, false);
+                showToast(`⚡ Alert: A wholesale club shopper just bought the last pallet of ${itemName}!`, true);
+            }
+        }, 20000); // Every 20 seconds
+    </script>
+</body>
+</html>
